@@ -30,7 +30,9 @@ namespace MoneyApp.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("MoneyConnectionString")));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(opt =>{
+                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
             services.AddCors();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IMoneyRepository, MoneyRepository>();
