@@ -21,5 +21,6 @@ export const appRoutes: Routes = [
             { path: 'inventory', component: InventoryListComponent }
         ]
     },
+    { path: 'home', component: HomeComponent },
     { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];

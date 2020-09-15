@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -34,6 +35,7 @@ namespace MoneyApp.API
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
             services.AddCors();
+            services.AddAutoMapper(typeof(MoneyRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IMoneyRepository, MoneyRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -54,7 +56,8 @@ namespace MoneyApp.API
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage(); // acts as global exception handler and it catches the exception and spits out in developer friendly exception page.
+                app.UseDeveloperExceptionPage(); 
+                // acts as global exception handler and it catches the exception and spits out in developer friendly exception page.
             }
             else
             {
@@ -72,16 +75,11 @@ namespace MoneyApp.API
                     });
                 });
             }
-
             // app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
